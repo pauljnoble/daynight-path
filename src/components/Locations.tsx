@@ -53,7 +53,7 @@ const Time = styled.div<{ $isLate: boolean }>`
   font-size: 52px;
   font-weight: 200;
   font-variant-numeric: tabular-nums;
-  transition: color 600ms;
+  transition: color 300ms;
 
   ${(p) => p.$isLate && "color: var(--color-text-secondary);"}
 

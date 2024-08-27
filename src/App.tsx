@@ -14,18 +14,31 @@ import { useMotionValue } from "framer-motion";
 import FPSStats from "react-fps-stats";
 import DateSelector from "./components/DateSelector";
 import { dayToMs, getIsNorthSun } from "./utils";
-import { offsetDaysSelector, useStore } from "./store";
+import { offsetDaysSelector, setThemeSelector, Theme, useStore } from "./store";
+
+const themes = ["blue", "green", "purple", "mono-dark"];
 
 const App = () => {
+  const setTheme = useStore(setThemeSelector);
   const offsetDays = useStore(offsetDaysSelector);
   const isNorthSun = getIsNorthSun(dayToMs(offsetDays) + Date.now());
   const dragX = useMotionValue(0);
 
+  const handleClick = () => {
+    const el = document.documentElement;
+    const currTheme = el.getAttribute("data-theme")!;
+    const currIndex = themes.indexOf(currTheme);
+    const next = themes[(currIndex + 1) % themes.length];
+    el.setAttribute("data-theme", next);
+    setTheme(next as Theme);
+  };
+
   return (
     <Root data-is-north-sun={isNorthSun}>
-      <FPSStats />
+      {/* <FPSStats /> */}
       <Container>
         <Main>
+          <ThemeBtn onClick={handleClick} />
           {/* <div>{new Date(appTime).toTimeString()}</div> */}
           <LocationsSection>
             <Locations />
@@ -67,6 +80,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   flex-basis: var(--width);
   height: var(--height);
   overflow: hidden;
@@ -86,17 +100,33 @@ const MapCrop = styled.div`
   aspect-ratio: ${CYLINDRICAL_STEREOGRAPHIC_ASPECT_CROPPED};
 `;
 
+const ThemeBtn = styled.button`
+  appearance: none;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 50%;
+  opacity: 0.5;
+  background-color: var(--color-map);
+  z-index: 9;
+`;
+
 const LocationsSection = styled.div`
-  height: 132px;
+  height: 148px;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 8px;
+  padding-bottom: 12px;
   position: relative;
   z-index: 5;
 `;
 
 const DateSection = styled.div`
-  padding-top: 12px;
+  padding-bottom: 16px;
 `;
 
 const MapContainer = styled.div`

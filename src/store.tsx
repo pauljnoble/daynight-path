@@ -1,20 +1,26 @@
 import { create } from "zustand";
 import { MS_PER_DAY } from "./constants";
 
+export type Theme = "purple" | "green" | "blue";
+
 // Define the store interface
 interface TimeStore {
+  theme: Theme;
   appTime: number;
   realTime: number;
   offsetDays: number;
   msSinceStartOfDay: number;
+  setTheme: (newTheme: Theme) => void;
   setAppTime: (newTime: number) => void;
   setRealTime: (newTime: number) => void;
 }
 
 export const offsetDaysSelector = (state: TimeStore) => state.offsetDays;
+export const setThemeSelector = (state: TimeStore) => state.setTheme;
 
 // Create the store
 export const useStore = create<TimeStore>((set, get) => ({
+  theme: "purple",
   appTime: Date.now(), // Initial value for appTime
   realTime: Date.now(), // Initial value for realTime
   offsetDays: 0,
@@ -33,4 +39,5 @@ export const useStore = create<TimeStore>((set, get) => ({
     set({ appTime: newTime, offsetDays: offsetDaysRounded, msSinceStartOfDay });
   },
   setRealTime: (newTime: number) => set({ realTime: newTime }),
+  setTheme: (newTheme: Theme) => set({ theme: newTheme }),
 }));

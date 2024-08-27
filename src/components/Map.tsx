@@ -3,13 +3,14 @@ import styled from "styled-components";
 import { CYLINDRICAL_STEREOGRAPHIC_ASPECT } from "../constants";
 import DynamicSvgImage from "./MapImage";
 import { getCustomProperty } from "../utils";
+import { useStore } from "../store";
 
 const Map = () => {
-  console.log("map");
+  const theme = useStore((state) => state.theme);
 
   const fillColor = useMemo(() => {
     return getCustomProperty("--color-map");
-  }, []);
+  }, [theme]);
 
   return (
     <Root>

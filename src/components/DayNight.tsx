@@ -22,7 +22,7 @@ import { useStore } from "../store";
 import { motion, useTransform } from "framer-motion";
 
 const DayNight = ({ x }: any) => {
-  const { realTime, offsetDays } = useStore();
+  const { realTime, offsetDays, theme } = useStore();
   // const offset = appTime - realTime;
 
   const longitudePrecision = 3;
@@ -52,7 +52,7 @@ const DayNight = ({ x }: any) => {
     console.log("Expensively rendering day / night path.", offsetDays);
     const time = realTime + dayToMs(offsetDays);
     return getPaths(time);
-  }, [offsetDays, realTime, longitudePrecision]);
+  }, [offsetDays, realTime, longitudePrecision, theme]);
 
   const baseEncoded = useMemo(() => {
     console.log("Expensively getting base encoded image");
