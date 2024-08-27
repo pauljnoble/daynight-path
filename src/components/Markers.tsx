@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import { geoCylindricalStereographic } from "../utils";
+import { LOCATIONS } from "../constants";
 
 const Marker = ({ item }: any) => {
-  const xy = geoCylindricalStereographic(item.location);
+  const xy = geoCylindricalStereographic(item.coords);
   return <MarkerRoot style={{ left: `${xy.x}%`, top: `${xy.y}%` }} />;
 };
 
-const Markers = ({ items }: any) => {
+const Markers = () => {
   return (
     <Root>
-      {items.map((item: any) => (
+      {LOCATIONS.map((item: any) => (
         <Marker item={item} key={item.id} />
       ))}
     </Root>

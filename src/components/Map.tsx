@@ -1,10 +1,20 @@
+import { useMemo } from "react";
 import styled from "styled-components";
 import { CYLINDRICAL_STEREOGRAPHIC_ASPECT } from "../constants";
+import DynamicSvgImage from "./MapImage";
+import { getCustomProperty } from "../utils";
 
 const Map = () => {
+  console.log("map");
+
+  const fillColor = useMemo(() => {
+    return getCustomProperty("--color-map");
+  }, []);
+
   return (
     <Root>
-      <MaskedImage />
+      <DynamicSvgImage fillColor={fillColor} svgPath={"/map.svg"} />
+      <DynamicSvgImage fillColor={fillColor} svgPath={"/map.svg"} />
     </Root>
   );
 };
@@ -13,11 +23,21 @@ export const Root = styled.div`
   aspect-ratio: ${CYLINDRICAL_STEREOGRAPHIC_ASPECT};
   width: 100%;
   position: absolute;
+  overflow: hidden;
+  left: 3%;
 
   img {
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+
+  img:nth-child(1) {
+    left: -3%;
+  }
+
+  img:nth-child(2) {
+    left: 97%;
   }
 `;
 

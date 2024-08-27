@@ -2,14 +2,39 @@
   --width: 800px;
   --aspect: 1.5712;
   --height: calc(var(--width) / var(--aspect));
-  --color-bg: red;
-  --color-map: blue;
-  --color-fill-daynight: purple;
-  --opacity-fill-daynight: 0.4;
+  --color-bg: #001731;
+  --color-map: #006c99;
+  --color-text-primary: #fff;
+  --color-text-secondary: #1e9ad4;
+  --color-fill-daynight: #001731;
+  --color-stroke-daynight: #027fad;
+  --color-slider-track: #07294e;
+  --color-slider-accent: #07294e;
+  --color-slider-thumb: #24a1df;
+  --color-debug-outline: red;
+  --opacity-stroke-daynight: 0.5;
+  --opacity-fill-daynight: 0.5;
   /* Cover component gradient size */
   --fade-size: 200px;
   /* Diameter of circle markers on map */
   --marker-size: 6px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+:root[data-theme="mono"] {
+  --color-bg: #fff;
+  --color-map: #ccc;
+  --color-text-primary: #111;
+  --color-text-secondary: #111;
+  --color-fill-daynight: #111;
+  --color-stroke-daynight: #fff;
+  --color-slider-track: #aaa;
+  --color-slider-accent: #000;
+  --color-slider-thumb: #999;
+  --color-debug-outline: transparent;
+  --opacity-stroke-daynight: 0;
+  --opacity-fill-daynight: 0.13;
 }
 
 a {
@@ -17,6 +42,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }

@@ -1,39 +1,35 @@
 /* How many pixels to drag 24 hours time */
-export const PX_DAY = 1024;
+export const PX_DRAG_PER_DAY = 1200;
 /* Ms per day */
-export const MS_DAY = 86400000;
+export const MS_PER_DAY = 86400000;
 /* Fixed aspect for this projection */
 export const CYLINDRICAL_STEREOGRAPHIC_ASPECT = 1.5712;
 /* Crop some of the blank space at the bottom of the map */
 export const CYLINDRICAL_STEREOGRAPHIC_ASPECT_CROPPED = 1.8;
-
+/* Locations with timezones */
 export const LOCATIONS = [
     {
-        name: "New York",
-        time: "11:30",
-        timeZone: 'America/New_York',
         id: "0001",
-        location: { lat: 40.7, lng: -74 },
+        name: "New York",
+        timeZone: 'America/New_York',
+        coords: { lat: 40.7, lng: -74 },
     },
     {
-        name: "London",
-        time: "11:30",
-        offset: 0,
         id: "0003",
-        location: { lat: 52, lng: 0 },
+        name: "London",
+        timeZone: 'Europe/London',  // Correct time zone for London
+        coords: { lat: 52, lng: 0 },
     },
     {
-        name: "Dubai",
-        time: "11:30",
-        offset: 0,
         id: "0002",
-        location: { lat: 25.2, lng: 55.27 },
+        name: "Dubai",
+        timeZone: 'Asia/Dubai',  // Correct time zone for Dubai
+        coords: { lat: 25.2, lng: 55.27 },
     },
     {
-        name: "Tokyo",
-        time: "11:30",
-        offset: 10,
         id: "0004",
-        location: { lat: 35.67, lng: 139.65 },
+        name: "Tokyo",
+        timeZone: 'Asia/Tokyo',  // Correct time zone for Tokyo
+        coords: { lat: 35.67, lng: 139.65 },
     },
 ];

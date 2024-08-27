@@ -1,27 +1,37 @@
 import { useMemo } from "react";
 import { geoCylindricalStereographic } from "d3-geo-projection";
-import { CYLINDRICAL_STEREOGRAPHIC_ASPECT } from "../constants";
+import {
+  CYLINDRICAL_STEREOGRAPHIC_ASPECT,
+  MS_PER_DAY,
+  PX_DRAG_PER_DAY,
+} from "../constants";
 import {
   getAllAngles,
   getCoordPathsFromRanges,
   getPointGroups,
   getPathStrings,
+  msToDay,
+  dayToMs,
+  msToPx,
+  convertSvgToCssBackgroundImage,
+  pathsToSvgString,
+  pxToMs,
 } from "../utils";
 import styled from "styled-components";
+import { useStore } from "../store";
+import { motion, useTransform } from "framer-motion";
 
-type Props = {
-  date: number;
-  offset: number;
-  options?: {
-    longitudePrecision: number;
-  };
-};
+const DayNight = ({ x }: any) => {
+  const { realTime, offsetDays } = useStore();
+  // const offset = appTime - realTime;
 
-const DayNight = ({ date, offset, options }: Props) => {
-  const longitudePrecision = options?.longitudePrecision || 3;
+  const longitudePrecision = 3;
 
-  const paths = useMemo(() => {
-    const ranges = getAllAngles(new Date(date), 0, longitudePrecision);
+  // Get the derived days offset
+  // const offsetDays = msToDay(offset);
+
+  const getPaths = (time: number) => {
+    const ranges = getAllAngles(new Date(time), 0, longitudePrecision);
     const paths = getCoordPathsFromRanges(ranges, longitudePrecision);
     const width = 100;
     const height = 100 / CYLINDRICAL_STEREOGRAPHIC_ASPECT;
@@ -32,27 +42,86 @@ const DayNight = ({ date, offset, options }: Props) => {
 
     const pointGroup = getPointGroups(paths, projection);
     return getPathStrings(pointGroup, width, height);
-  }, [date, longitudePrecision]);
+  };
+
+  /**
+   * Expensive, so only update on mount or when daysOffset / options changes.
+   * Only render for 0:00 value.
+   */
+  const paths = useMemo(() => {
+    console.log("Expensively rendering day / night path.", offsetDays);
+    const time = realTime + dayToMs(offsetDays);
+    return getPaths(time);
+  }, [offsetDays, realTime, longitudePrecision]);
+
+  const baseEncoded = useMemo(() => {
+    console.log("Expensively getting base encoded image");
+    const str = pathsToSvgString(paths);
+    return convertSvgToCssBackgroundImage(str);
+  }, [paths]);
+
+  const svgString = useMemo(() => {
+    if (!paths) return "";
+
+    return pathsToSvgString(paths);
+  }, [paths]);
+
+  // const dayOffset = -(((offset / MS_PER_DAY) * 100) / 3) % (100 / 3);
+
+  const xTransformed = useTransform(
+    () => `${(((pxToMs(x.get()) / MS_PER_DAY) * 100) / 3) % (100 / 3)}%`
+  );
 
   return (
-    <Root>
-      <Paths>
-        <DayNightShadow style={{ transform: `translateX(${offset}px)` }}>
-          <svg viewBox={`0 0 100 ${100 / CYLINDRICAL_STEREOGRAPHIC_ASPECT}`}>
-            <path d={paths.closedPath} />
-            <path d={paths.curvePath} className="open" />
-          </svg>
-          <svg viewBox={`0 0 100 ${100 / CYLINDRICAL_STEREOGRAPHIC_ASPECT}`}>
-            <path d={paths.closedPath} />
-            <path d={paths.curvePath} className="open" />
-          </svg>
-          <svg viewBox={`0 0 100 ${100 / CYLINDRICAL_STEREOGRAPHIC_ASPECT}`}>
-            <path d={paths.closedPath} />
-            <path d={paths.curvePath} className="open" />
-          </svg>
-        </DayNightShadow>
-      </Paths>
-    </Root>
+    <>
+      <Root>
+        <Paths>
+          <DayNightShadow
+            style={{
+              x: xTransformed,
+            }}
+          >
+            {svgString && (
+              <DayNightShadowBg>
+                <div
+                  className="svg"
+                  style={{ left: 0 }}
+                  dangerouslySetInnerHTML={{ __html: svgString }}
+                ></div>
+                <div
+                  className="svg"
+                  style={{ left: "20%" }}
+                  dangerouslySetInnerHTML={{ __html: svgString }}
+                ></div>
+                <div
+                  className="svg"
+                  style={{ left: "40%" }}
+                  dangerouslySetInnerHTML={{ __html: svgString }}
+                ></div>
+                <div
+                  className="svg"
+                  style={{ left: "60%" }}
+                  dangerouslySetInnerHTML={{ __html: svgString }}
+                ></div>
+                <div
+                  className="svg"
+                  style={{ left: "80%" }}
+                  dangerouslySetInnerHTML={{ __html: svgString }}
+                ></div>
+              </DayNightShadowBg>
+            )}
+
+            {/* <img src="https://assets.codepen.io/215059/apple-music-15.jpg" /> */}
+            {/* <DayNightShadowBg style={{ backgroundImage: baseEncoded }} /> */}
+            {/* <DayNightShadowBg style={{ backgroundImage: "url(#foo)" }} /> */}
+            {/* <DayNightShadowBg>
+            <img src="/vite.svg" />
+          </DayNightShadowBg> */}
+          </DayNightShadow>
+        </Paths>
+      </Root>
+      {/* {svgString && <div dangerouslySetInnerHTML={{ __html: svgString }}></div>} */}
+    </>
   );
 };
 
@@ -90,28 +159,41 @@ const Paths = styled.div`
   justify-content: center;
 `;
 
-const DayNightShadow = styled.div`
+const DayNightShadow = styled(motion.div)`
   display: flex;
   flex: 1;
   justify-content: center;
   height: 100%;
+  overflow: visible;
+  font-size: 120px;
+`;
 
-  > svg {
-    width: calc(33.3333% + 1px);
+const DayNightShadowBg = styled.div`
+  position: absolute;
+  /* 
+  Leave an overhang for the background repeat, see below.
+  ------
+   xxx   <- parent 
+  xxxxx  <- this element
+  ------
+  Width must accommodate the overhang.
+  */
+  left: calc(1 / 3 * -100%);
+  width: calc(5 / 3 * 100%);
+  height: 100%;
+  /* background-repeat: repeat-x; */
+  /* background-size: auto 100%; */
+  display: flex;
+
+  > .svg {
+    overflow: hidden;
+    position: absolute;
     height: 100%;
-    left: 10px;
-    position: relative;
+    width: calc(1 / 5 * 100%);
 
-    path {
-      fill: var(--color-fill-daynight);
-      fill-opacity: var(--opacity-fill-daynight);
-    }
-
-    path.open {
-      fill: transparent;
-      stroke: var(--color-stroke-daynight);
-      stroke-width: 0.1;
-      stroke-opacity: var(--opacity-stroke-daynight);
+    > svg {
+      width: calc(100% + 2px);
+      margin-left: -1px;
     }
   }
 `;

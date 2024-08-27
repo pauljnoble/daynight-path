@@ -50,6 +50,18 @@ const Gradient = styled.div`
     right: -300px;
     margin: auto;
     z-index: 4;
+
+    [data-is-north-sun="true"] & {
+      bottom: auto;
+      top: 100%;
+
+      background-image: linear-gradient(
+        to top,
+        var(--color-bg),
+        var(--color-bg) calc(100% - var(--fade-size)),
+        transparent
+      );
+    }
   }
 `;
 

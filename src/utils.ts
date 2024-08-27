@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import SunCalc from "suncalc";
 import { geoCylindricalStereographic as geoCylindricalStereographicProjection } from "d3-geo-projection";
-import { PX_DAY, MS_DAY } from "./constants";
+import { PX_DRAG_PER_DAY, MS_PER_DAY, CYLINDRICAL_STEREOGRAPHIC_ASPECT } from "./constants";
 
 const getLatitudeRangesForAngle = (
     date: Date,
@@ -157,6 +157,49 @@ export const getPathStrings = (
     return { closedPath: pathString, curvePath };
 };
 
+/**
+ * Converts an SVG string into a Base64 encoded image suitable for use in a CSS background-image property.
+ * 
+ * @param svgString - The SVG data as a string.
+ * @returns A string containing the Base64 encoded SVG image that can be used in a CSS background-image property.
+ */
+export const convertSvgToCssBackgroundImage = (svgString: string): string => {
+    // Encode the SVG string to Base64
+    const encodedSvg = btoa(encodeURIComponent(svgString).replace(/%([0-9A-F]{2})/g, (_, p1) =>
+        String.fromCharCode(parseInt(p1, 16))
+    ));
+
+    // Create the data URL that can be used in CSS
+    return `url('data:image/svg+xml;base64,${encodedSvg}')`;
+};
+
+export const getCustomProperty = (name: string) => {
+    const root = document.documentElement;
+    console.log('getting name', name, getComputedStyle(root).getPropertyValue(name))
+    return getComputedStyle(root).getPropertyValue(name).trim();
+}
+
+/**
+ * Converts paths to XML SVG string
+ * @param paths 
+ * @returns 
+ */
+export const pathsToSvgString = (paths: any) => {
+    const height = 100 / CYLINDRICAL_STEREOGRAPHIC_ASPECT;
+    const fill = getCustomProperty('--color-fill-daynight');
+    const opacity = getCustomProperty('--opacity-fill-daynight');
+    const strokeColor = getCustomProperty('--color-stroke-daynight');
+    const strokeOpacity = getCustomProperty('--opacity-stroke-daynight');
+
+
+    const svg = `<svg viewBox="0 0 100 ${height}" xmlns="http://www.w3.org/2000/svg" id="foo">
+            <path d="${paths.closedPath}" fill="${fill}" fill-opacity="${opacity}" />
+            <path d="${paths.curvePath}" className="open" fill="transparent" stroke="${strokeColor}" stroke-width="0.1" stroke-opacity="${strokeOpacity}" />
+          </svg>`;
+    return svg;
+}
+
+
 export const getIsNorthSun = (date: number) => {
     // When it's daylight at the north pole we know it's a northern sun
     return SunCalc.getPosition(date, 90, 0).altitude > 0;
@@ -209,11 +252,11 @@ export const formatDate = (date: Date): string => {
 };
 
 export const pxToMs = (px: number) => {
-    return (px / PX_DAY) * MS_DAY;
+    return (px / PX_DRAG_PER_DAY) * MS_PER_DAY;
 };
 
 export const msToPx = (ms: number) => {
-    return (ms / MS_DAY) * PX_DAY;
+    return (ms / MS_PER_DAY) * PX_DRAG_PER_DAY;
 };
 
 export const convertTimestampToTime = (timestamp: number): string => {
@@ -235,3 +278,26 @@ export const geoCylindricalStereographic = (coord: any) => {
     const pos = (coord.lng + 180) / 3.6; // TODO - can't use projection()
     return { x: pos, y: (pos2[1] / 5) };
 };
+
+/**
+ * Converts millisecond value to whole day value (rounded down)
+ * @param ms 
+ * @returns The days rounded down
+ */
+export const msToDay = (ms: number) => {
+    const days = ms / MS_PER_DAY;
+    const result = ms > 0 ? Math.floor(days) : Math.ceil(days);
+
+    // -0 or 0 are equal however trigger value changes
+    if (result === 0) return 0;
+
+    return result
+}
+
+
+/**
+ * Converts days to milliseconds (whole value)
+ * @param day 
+ * @returns The milliseconds
+ */
+export const dayToMs = (day: number) => Math.round(day * MS_PER_DAY);
