@@ -149,7 +149,7 @@ export const Control = styled.input.attrs({ type: "range" })`
     border-radius: 2px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
     cursor: pointer;
-    height: 22px;
+    height: 18px;
     width: 4px;
     margin-top: 0;
     pointer-events: all;
@@ -159,7 +159,7 @@ export const Control = styled.input.attrs({ type: "range" })`
 `;
 
 export const Root = styled.div`
-  --slider-track-height: 3px;
+  --slider-track-height: 2px;
   --component-min-height: 44px;
 
   position: relative;
@@ -169,6 +169,7 @@ export const Root = styled.div`
   flex: 1;
   width: 100%;
   min-height: var(--component-min-height);
+  transition: opacity 400ms;
 `;
 
 export default RangeSlider;

@@ -23,8 +23,8 @@ const MarkerRoot = styled.div`
   position: absolute;
   height: var(--marker-size);
   width: var(--marker-size);
-  background-color: black;
-  border: 1px solid white;
+  background-color: var(--color-marker-bg);
+  border: 1px solid var(--color-marker-border);
   border-radius: 50%;
   z-index: 9;
   transform: translateX(-50%) translateY(-50%);

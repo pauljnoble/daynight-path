@@ -4,16 +4,19 @@ import { formatDate, getDayNumberOfYear } from "../utils";
 import RangeSlider from "./Range";
 
 const DateSelector = () => {
-  const { appTime, setAppTime } = useStore();
+  const { appTime, setAppTime, msSinceStartOfDay } = useStore();
 
   const handleChange = (value: number) => {
     // Create a new Date object for January 1st of the given year
-    const firstDayOfYear = new Date(Date.UTC(2024, 0, 1));
+    const date = new Date(Date.UTC(2024, 0, 1));
 
     // Set the date to the nth day of the year
-    firstDayOfYear.setUTCDate(value);
+    date.setUTCDate(value);
 
-    setAppTime(firstDayOfYear.getTime());
+    // Maintain the current time of day
+    date.setUTCMilliseconds(msSinceStartOfDay);
+
+    setAppTime(date.getTime());
   };
 
   return (
@@ -41,12 +44,13 @@ const DateLabel = styled.div`
   width: 200px;
   pointer-events: none;
   color: var(--color-text-secondary);
-  font-size: 32px;
-  font-weight: 400;
+  font-size: 24px;
   z-index: 9;
   font-variant-numeric: tabular-nums;
   opacity: 1;
-  transition: opacity 400ms;
+  transition: all 400ms;
+  text-transform: uppercase;
+  transform: translateY(24px);
 `;
 
 const Root = styled.div`
@@ -58,13 +62,20 @@ const Root = styled.div`
   justify-content: center;
   flex-direction: column;
   z-index: 9;
-  /* opacity: 0; */
   transition: opacity 400ms;
+
+  ${DateLabel} + * {
+    opacity: 0;
+  }
 
   &:hover {
     opacity: 1;
 
     ${DateLabel} {
+      transform: translateY(0);
+    }
+
+    ${DateLabel} + * {
       opacity: 1;
     }
   }

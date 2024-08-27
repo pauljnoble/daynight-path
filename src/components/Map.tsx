@@ -47,8 +47,8 @@ export const MaskedImage = styled.div`
   position: relative;
   background-color: var(--color-map);
   mask: url(/map.svg) repeat-x center;
-  mask-position: calc(var(--width) * -0.033333) 0;
-  right: calc(var(--width) * -0.033333);
+  mask-position: calc(var(--width-map) * -0.033333) 0;
+  right: calc(var(--width-map) * -0.033333);
   mask-size: 100% auto;
 `;
 

@@ -193,6 +193,7 @@ const DayNightShadowBg = styled.div`
 
     > svg {
       width: calc(100% + 2px);
+      height: 100%;
       margin-left: -1px;
     }
   }

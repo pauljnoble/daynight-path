@@ -1,13 +1,17 @@
 :root {
-  --width: 800px;
-  --aspect: 1.5712;
-  --height: calc(var(--width) / var(--aspect));
+  --container-pad: 80px;
+  --width: calc(1024px - var(--container-pad));
+  --height: calc(768px - var(--container-pad));
+  --width-map: 800px;
+  --aspect-map: 1.5712;
+  --height-map: calc(var(--width-map) / var(--aspect-map));
   --color-bg: #001731;
   --color-map: #006c99;
   --color-text-primary: #fff;
   --color-text-secondary: #1e9ad4;
   --color-fill-daynight: #001731;
   --color-stroke-daynight: #027fad;
+  --color-container-outline: rgba(255, 255, 255, 0.1);
   --color-slider-track: #07294e;
   --color-slider-accent: #07294e;
   --color-slider-thumb: #24a1df;
@@ -17,7 +21,7 @@
   /* Cover component gradient size */
   --fade-size: 200px;
   /* Diameter of circle markers on map */
-  --marker-size: 6px;
+  --marker-size: 8px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
@@ -33,8 +37,50 @@
   --color-slider-accent: #000;
   --color-slider-thumb: #999;
   --color-debug-outline: transparent;
+  --color-gradient-start: #444;
+  --color-gradient-end: #555;
   --opacity-stroke-daynight: 0;
   --opacity-fill-daynight: 0.13;
+}
+
+:root[data-theme="purple"] {
+  --color-bg: #080a31;
+  --color-container-outline: transparent;
+  --color-map: #313374;
+  --color-text-primary: #fff;
+  --color-text-secondary: #8d91e1;
+  --color-fill-daynight: #080a31;
+  --color-stroke-daynight: #8d91e1;
+  --color-gradient-start: #616390;
+  --color-gradient-end: #616390;
+  --color-slider-track: #262753;
+  --color-slider-accent: #262753;
+  --color-slider-thumb: #616390;
+  --color-debug-outline: transparent;
+  --color-marker-bg: #8d91e1;
+  --color-marker-border: #080a31;
+  --opacity-stroke-daynight: 0.5;
+  --opacity-fill-daynight: 0.5;
+}
+
+:root[data-theme="mono-dark"] {
+  --color-bg: #111;
+  --color-map: #333;
+  --color-text-primary: #fff;
+  --color-text-secondary: #999;
+  --color-fill-daynight: #111;
+  --color-stroke-daynight: #999;
+  --color-slider-track: #222;
+  --color-slider-accent: #222;
+  --color-slider-thumb: #555;
+  --color-debug-outline: transparent;
+  --opacity-stroke-daynight: 0.3;
+  --opacity-fill-daynight: 0.5;
+  --fade-size: 120px;
+  --color-gradient-start: #111;
+  --color-gradient-end: #222;
+  --color-marker-bg: #111;
+  --color-marker-border: #999;
 }
 
 a {

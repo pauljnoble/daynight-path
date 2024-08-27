@@ -6,6 +6,7 @@ interface TimeStore {
   appTime: number;
   realTime: number;
   offsetDays: number;
+  msSinceStartOfDay: number;
   setAppTime: (newTime: number) => void;
   setRealTime: (newTime: number) => void;
 }
@@ -17,6 +18,7 @@ export const useStore = create<TimeStore>((set, get) => ({
   appTime: Date.now(), // Initial value for appTime
   realTime: Date.now(), // Initial value for realTime
   offsetDays: 0,
+  msSinceStartOfDay: Date.now() % MS_PER_DAY,
   setAppTime: (newTime: number) => {
     const realTime = get().realTime;
     const offsetMs = newTime - realTime;
@@ -26,7 +28,9 @@ export const useStore = create<TimeStore>((set, get) => ({
 
     if (offsetDaysRounded === -0) offsetDaysRounded = 0;
 
-    set({ appTime: newTime, offsetDays: offsetDaysRounded });
+    const msSinceStartOfDay = newTime % MS_PER_DAY;
+
+    set({ appTime: newTime, offsetDays: offsetDaysRounded, msSinceStartOfDay });
   },
   setRealTime: (newTime: number) => set({ realTime: newTime }),
 }));

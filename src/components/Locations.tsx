@@ -25,9 +25,17 @@ const Locations = () => {
   return (
     <>
       {locations.map((l: TODO, i: number) => {
+        const parts = formatters[i].format(appTime).split(":");
+
+        const isLate = parseInt(parts[0]) < 7 || parseInt(parts[0]) > 19;
+
         return (
           <Root key={l.id}>
-            <Time>{formatters[i].format(appTime)}</Time>
+            <Time $isLate={isLate}>
+              {parts[0]}
+              <span>:</span>
+              {parts[1]}
+            </Time>
             <Name>{l.name}</Name>
           </Root>
         );
@@ -41,10 +49,19 @@ const Root = styled.div`
   flex: 1;
 `;
 
-const Time = styled.div`
-  font-size: 54px;
+const Time = styled.div<{ $isLate: boolean }>`
+  font-size: 52px;
   font-weight: 200;
   font-variant-numeric: tabular-nums;
+  transition: color 600ms;
+
+  ${(p) => p.$isLate && "color: var(--color-text-secondary);"}
+
+  span {
+    color: var(--color-text-secondary);
+    opacity: 0.66;
+  }
+  /* filter: blur(3px); */
 `;
 
 const Name = styled.div`
@@ -52,7 +69,7 @@ const Name = styled.div`
   text-transform: uppercase;
   font-size: 18px;
   padding-top: 12px;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 1px;
 `;
 

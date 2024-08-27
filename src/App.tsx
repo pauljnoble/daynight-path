@@ -24,26 +24,26 @@ const App = () => {
   return (
     <Root data-is-north-sun={isNorthSun}>
       <FPSStats />
-      <VideoFrame />
-
-      <Main>
-        {/* <div>{new Date(appTime).toTimeString()}</div> */}
-        <LocationsSection>
-          <Locations />
-        </LocationsSection>
-        <MapCrop>
-          <MapContainer>
-            <Dragger x={dragX} />
-            <DayNight x={dragX} />
-            <Markers />
-            <Cover />
-            <Map />
-          </MapContainer>
-        </MapCrop>
-        <DateSection>
-          <DateSelector />
-        </DateSection>
-      </Main>
+      <Container>
+        <Main>
+          {/* <div>{new Date(appTime).toTimeString()}</div> */}
+          <LocationsSection>
+            <Locations />
+          </LocationsSection>
+          <MapCrop>
+            <MapContainer>
+              <Dragger x={dragX} />
+              <DayNight x={dragX} />
+              <Markers />
+              <Cover />
+              <Map />
+            </MapContainer>
+          </MapCrop>
+          <DateSection>
+            <DateSelector />
+          </DateSection>
+        </Main>
+      </Container>
     </Root>
   );
 };
@@ -55,39 +55,30 @@ const Root = styled.div`
   min-width: calc(var(--width) + 100px);
   align-items: center;
   justify-content: center;
-  background-color: var(--color-bg);
   color: var(--color-text-primary);
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-gradient-start),
+    var(--color-gradient-end)
+  );
 `;
 
-const VideoFrame = styled.div`
-  box-sizing: border-box;
-  width: 1024px;
-  height: 768px;
-  position: fixed;
-  padding: 36px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: var(--width);
+  height: var(--height);
+  overflow: hidden;
+  background-color: var(--color-bg);
   outline: dotted 1px var(--color-debug-outline);
-
-  &::before {
-    display: block;
-    width: 100%;
-    height: 100%;
-    outline: dotted 1px var(--color-debug-outline);
-
-    content: "";
-  }
+  border-radius: 20px;
+  outline: 1px solid var(--color-container-outline);
 `;
 
 const Main = styled.div`
-  flex-basis: var(--width);
-
-  /* > * {
-    outline: dashed 1px black;
-  } */
+  flex-basis: var(--width-map);
+  outline: dotted 1px var(--color-debug-outline);
 `;
 
 const MapCrop = styled.div`
@@ -96,14 +87,16 @@ const MapCrop = styled.div`
 `;
 
 const LocationsSection = styled.div`
-  height: 120px;
+  height: 132px;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
+  position: relative;
+  z-index: 5;
 `;
 
 const DateSection = styled.div`
-  /* background-color: red; */
+  padding-top: 12px;
 `;
 
 const MapContainer = styled.div`
