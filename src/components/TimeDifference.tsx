@@ -53,9 +53,9 @@ const TimeDifference = () => {
 
 const Control = styled.div`
   position: relative;
-  height: 32px;
+  height: 36px;
   padding: 0 40px 0 20px;
-  border-radius: 16px;
+  border-radius: 18px;
   outline: 1px solid var(--color-bg);
   color: white;
   background-color: var(--color-accent);
@@ -105,10 +105,12 @@ const CloseWrapper = styled.div`
 
 const Root = styled.div`
   --opacity-faint: 0.66;
-  --font-size-small: 14px;
+  --font-size-small: 16px;
+  --font-size-default: 18px;
+
+  font-size: var(--font-size-default);
   display: flex;
   align-items: center;
-  font-size: 16px;
   font-variant-numeric: tabular-nums;
 
   .sign {
@@ -116,7 +118,7 @@ const Root = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    font-weight: 300;
+    font-weight: 400;
     width: 1em;
     justify-content: center;
     /* opacity: var(--opacity-faint); */
@@ -133,7 +135,7 @@ const Root = styled.div`
     font-size: var(--font-size-small);
     padding-left: 2px;
     padding-right: 6px;
-    font-weight: 500;
+    font-weight: 600;
     /* opacity: var(--opacity-faint); */
 
     &.no-pad-right {

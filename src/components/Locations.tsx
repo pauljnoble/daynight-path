@@ -51,7 +51,7 @@ const Root = styled.div`
 
 const Time = styled.div<{ $isLate: boolean }>`
   font-size: 52px;
-  font-weight: 200;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
   transition: color 300ms;
 
