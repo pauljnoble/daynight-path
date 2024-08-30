@@ -15,32 +15,21 @@
   --color-slider-track: #07294e;
   --color-slider-accent: #07294e;
   --color-slider-thumb: #24a1df;
+  --color-accent: #3560ff;
   --color-debug-outline: red;
+  --color-tick-hour-bg: rgba(255, 255, 255, 0.5);
+  --color-tick-min-bg: rgba(255, 255, 255, 0.3);
+
   --opacity-stroke-daynight: 0.5;
   --opacity-fill-daynight: 0.5;
   /* Cover component gradient size */
   --fade-size: 200px;
   /* Diameter of circle markers on map */
   --marker-size: 8px;
+  /* Time offset ticker */
+  --ticker-height: 72px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-}
-
-:root[data-theme="mono"] {
-  --color-bg: #fff;
-  --color-map: #ccc;
-  --color-text-primary: #111;
-  --color-text-secondary: #111;
-  --color-fill-daynight: #111;
-  --color-stroke-daynight: #fff;
-  --color-slider-track: #aaa;
-  --color-slider-accent: #000;
-  --color-slider-thumb: #999;
-  --color-debug-outline: transparent;
-  --color-gradient-start: #444;
-  --color-gradient-end: #555;
-  --opacity-stroke-daynight: 0;
-  --opacity-fill-daynight: 0.13;
 }
 
 :root[data-theme="purple"] {
@@ -57,30 +46,36 @@
   --color-slider-accent: #262753;
   --color-slider-thumb: #616390;
   --color-debug-outline: transparent;
-  --color-marker-bg: #8d91e1;
+  --color-marker-bg: #339dff;
+  --color-accent: #491cff;
   --color-marker-border: #080a31;
   --opacity-stroke-daynight: 0.5;
   --opacity-fill-daynight: 0.5;
+  --color-tick-hour-bg: #8d91e166;
+  --color-tick-min-bg: #8d91e133;
 }
 
-:root[data-theme="blue"] {
-  --color-bg: #001731;
-  --color-container-outline: transparent;
-  --color-map: #016b99;
+:root[data-theme="mono-dark"] {
+  --color-bg: #0e1014;
+  --color-container-outline: rgba(255, 255, 255, 0.1);
+  --color-map: #292c33;
   --color-text-primary: #fff;
-  --color-text-secondary: #1689c1;
-  --color-fill-daynight: #001731;
-  --color-stroke-daynight: #1689c1;
-  --color-gradient-start: #006b99;
-  --color-gradient-end: #006b99;
-  --color-slider-track: #262753;
-  --color-slider-accent: #262753;
-  --color-slider-thumb: #616390;
+  --color-text-secondary: #4e5460;
+  --color-fill-daynight: #0e1014;
+  --color-stroke-daynight: #4e5460;
+  --color-slider-track: #222;
+  --color-slider-accent: #222;
+  --color-slider-thumb: #555;
   --color-debug-outline: transparent;
-  --color-marker-bg: #62b7db;
-  --color-marker-border: #080a31;
-  --opacity-stroke-daynight: 0.5;
-  --opacity-fill-daynight: 0.66;
+  --opacity-stroke-daynight: 0.66;
+  --opacity-fill-daynight: 0.7;
+  --fade-size: 120px;
+  --color-gradient-start: #1b1c20;
+  --color-gradient-end: #1b1c20;
+  --color-marker-bg: #ffbc31;
+  --color-marker-border: #111;
+  --color-tick-hour-bg: #373b44;
+  --color-tick-min-bg: #292c33;
 }
 
 :root[data-theme="green"] {
@@ -97,31 +92,13 @@
   --color-slider-accent: #262753;
   --color-slider-thumb: #616390;
   --color-debug-outline: transparent;
-  --color-marker-bg: #62b7db;
+  --color-accent: #00557d;
+  --color-marker-bg: #ff7567;
   --color-marker-border: #080a31;
+  --color-tick-hour-bg: #005662;
+  --color-tick-min-bg: #004049;
   --opacity-stroke-daynight: 0.5;
   --opacity-fill-daynight: 0.66;
-}
-
-:root[data-theme="mono-dark"] {
-  --color-bg: #111;
-  --color-container-outline: transparent;
-  --color-map: #333;
-  --color-text-primary: #fff;
-  --color-text-secondary: #999;
-  --color-fill-daynight: #111;
-  --color-stroke-daynight: #999;
-  --color-slider-track: #222;
-  --color-slider-accent: #222;
-  --color-slider-thumb: #555;
-  --color-debug-outline: transparent;
-  --opacity-stroke-daynight: 0.3;
-  --opacity-fill-daynight: 0.5;
-  --fade-size: 120px;
-  --color-gradient-start: #222;
-  --color-gradient-end: #222;
-  --color-marker-bg: #111;
-  --color-marker-border: #999;
 }
 
 a {

@@ -47,7 +47,7 @@ const DateLabel = styled.div`
   font-size: 24px;
   z-index: 9;
   font-variant-numeric: tabular-nums;
-  opacity: 1;
+  opacity: 0;
   transition: all 400ms;
   text-transform: uppercase;
   transform: translateY(24px);

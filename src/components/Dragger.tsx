@@ -1,20 +1,19 @@
 import { useDrag } from "@use-gesture/react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { styled } from "styled-components";
 import { useStore } from "../store";
-import { pxToMs } from "../utils";
+import { msToPx, pxToMs } from "../utils";
 
 const Dragger = ({ x }: any) => {
   const { setAppTime, realTime, appTime } = useStore();
   const isDownRef = useRef(false);
-  const dragTimeRef = useRef(realTime);
-  const lastMx = useRef(0);
+  const lastDragX = useRef(0);
 
   const onDrag = (value: number) => {
-    const dragPx = value + lastMx.current;
+    const dragPx = value + lastDragX.current;
     const offsetMs = pxToMs(-dragPx);
-    setAppTime(dragTimeRef.current + offsetMs);
-    x.set(dragPx);
+    setAppTime(realTime + offsetMs);
+    // x.set(dragPx);
   };
 
   const handleDrag = (state: any) => {
@@ -25,19 +24,18 @@ const Dragger = ({ x }: any) => {
 
     const wasDown = isDownRef.current;
 
-    if (!wasDown && down) {
-      dragTimeRef.current = appTime;
+    // Store the x position on down
+    if (down && !wasDown) {
+      isDownRef.current = true;
+      lastDragX.current = x.get();
     }
 
-    // Update the ref immediately with the current `down` state
-    isDownRef.current = down;
-
     if (down) {
-      // During the drag, calculate the drag movement
       onDrag(mx);
-    } else {
-      // When drag ends, accumulate the movement
-      lastMx.current += mx;
+    }
+
+    if (!down) {
+      isDownRef.current = false;
     }
   };
 
@@ -47,6 +45,13 @@ const Dragger = ({ x }: any) => {
     // however we can also use the workaround below on the element (onMouseUp)
     // pointer: { capture: false },
   });
+
+  /**
+   * When appTime gets updated, set the motion value to reflect the store value
+   */
+  useEffect(() => {
+    x.set(msToPx(realTime - appTime));
+  }, [appTime]);
 
   return <Root {...bind()}></Root>;
 };

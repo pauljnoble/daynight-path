@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { MS_PER_DAY } from "./constants";
+import { MotionValue, useMotionValue } from "framer-motion";
 
 export type Theme = "purple" | "green" | "blue";
 
@@ -13,10 +14,12 @@ interface TimeStore {
   setTheme: (newTheme: Theme) => void;
   setAppTime: (newTime: number) => void;
   setRealTime: (newTime: number) => void;
+  resetAppTime: () => void;
 }
 
 export const offsetDaysSelector = (state: TimeStore) => state.offsetDays;
 export const setThemeSelector = (state: TimeStore) => state.setTheme;
+export const resetAppTimeSelector = (state: TimeStore) => state.resetAppTime;
 
 // Create the store
 export const useStore = create<TimeStore>((set, get) => ({
@@ -40,4 +43,5 @@ export const useStore = create<TimeStore>((set, get) => ({
   },
   setRealTime: (newTime: number) => set({ realTime: newTime }),
   setTheme: (newTheme: Theme) => set({ theme: newTheme }),
+  resetAppTime: () => set({ appTime: get().realTime, offsetDays: 0 }),
 }));

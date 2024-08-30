@@ -15,8 +15,9 @@ import FPSStats from "react-fps-stats";
 import DateSelector from "./components/DateSelector";
 import { dayToMs, getIsNorthSun } from "./utils";
 import { offsetDaysSelector, setThemeSelector, Theme, useStore } from "./store";
+import TimeOffset from "./components/TimeOffset";
 
-const themes = ["blue", "green", "purple", "mono-dark"];
+const themes = ["green", "purple", "mono-dark"];
 
 const App = () => {
   const setTheme = useStore(setThemeSelector);
@@ -35,7 +36,7 @@ const App = () => {
 
   return (
     <Root data-is-north-sun={isNorthSun}>
-      {/* <FPSStats /> */}
+      <FPSStats />
       <Container>
         <Main>
           <ThemeBtn onClick={handleClick} />
@@ -52,9 +53,10 @@ const App = () => {
               <Map />
             </MapContainer>
           </MapCrop>
-          <DateSection>
+          {/* <DateSection>
             <DateSelector />
-          </DateSection>
+          </DateSection> */}
+          <TimeOffset x={dragX} />
         </Main>
       </Container>
     </Root>
@@ -78,7 +80,7 @@ const Root = styled.div`
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   position: relative;
   flex-basis: var(--width);
@@ -97,6 +99,7 @@ const Main = styled.div`
 
 const MapCrop = styled.div`
   position: relative;
+  top: 20px;
   aspect-ratio: ${CYLINDRICAL_STEREOGRAPHIC_ASPECT_CROPPED};
 `;
 
