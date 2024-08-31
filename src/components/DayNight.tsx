@@ -1,19 +1,12 @@
 import { useMemo } from "react";
 import { geoCylindricalStereographic } from "d3-geo-projection";
-import {
-  CYLINDRICAL_STEREOGRAPHIC_ASPECT,
-  MS_PER_DAY,
-  PX_DRAG_PER_DAY,
-} from "../constants";
+import { CYLINDRICAL_STEREOGRAPHIC_ASPECT, MS_PER_DAY } from "../constants";
 import {
   getAllAngles,
   getCoordPathsFromRanges,
   getPointGroups,
   getPathStrings,
-  msToDay,
   dayToMs,
-  msToPx,
-  convertSvgToCssBackgroundImage,
   pathsToSvgString,
   pxToMs,
 } from "../utils";
@@ -54,11 +47,11 @@ const DayNight = ({ x }: any) => {
     return getPaths(time);
   }, [offsetDays, realTime, longitudePrecision, theme]);
 
-  const baseEncoded = useMemo(() => {
-    console.log("Expensively getting base encoded image");
-    const str = pathsToSvgString(paths);
-    return convertSvgToCssBackgroundImage(str);
-  }, [paths]);
+  // const baseEncoded = useMemo(() => {
+  //   console.log("Expensively getting base encoded image");
+  //   const str = pathsToSvgString(paths);
+  //   return convertSvgToCssBackgroundImage(str);
+  // }, [paths]);
 
   const svgString = useMemo(() => {
     if (!paths) return "";
@@ -110,17 +103,9 @@ const DayNight = ({ x }: any) => {
                 ></div>
               </DayNightShadowBg>
             )}
-
-            {/* <img src="https://assets.codepen.io/215059/apple-music-15.jpg" /> */}
-            {/* <DayNightShadowBg style={{ backgroundImage: baseEncoded }} /> */}
-            {/* <DayNightShadowBg style={{ backgroundImage: "url(#foo)" }} /> */}
-            {/* <DayNightShadowBg>
-            <img src="/vite.svg" />
-          </DayNightShadowBg> */}
           </DayNightShadow>
         </Paths>
       </Root>
-      {/* {svgString && <div dangerouslySetInnerHTML={{ __html: svgString }}></div>} */}
     </>
   );
 };

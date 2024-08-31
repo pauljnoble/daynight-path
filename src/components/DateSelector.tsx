@@ -5,7 +5,7 @@ import RangeSlider from "./Range";
 import { MS_PER_DAY } from "../constants";
 
 const DateSelector = () => {
-  const { appTime, setAppTime, msSinceStartOfDay, realTime } = useStore();
+  const { appTime, setAppTime, realTime } = useStore();
 
   const handleChange = (value: number) => {
     // Create a new Date object for January 1st of the given year
