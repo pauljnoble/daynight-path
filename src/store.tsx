@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import { MS_PER_DAY } from "./constants";
 import { MotionValue, useMotionValue } from "framer-motion";
-
-export type Theme = "purple" | "green" | "blue";
+import { Theme } from "./types";
 
 // Define the store interface
 interface TimeStore {

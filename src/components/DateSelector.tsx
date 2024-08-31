@@ -21,7 +21,9 @@ const DateSelector = () => {
 
   return (
     <Root>
-      <DateLabel>{formatDate(new Date(appTime))}</DateLabel>
+      <DateLabel>
+        {formatDate(new Date(appTime))} <span>UTC</span>
+      </DateLabel>
 
       <RangeSlider
         min={1}
@@ -46,6 +48,11 @@ const DateLabel = styled.div`
   font-size: 16px;
   font-variant-numeric: tabular-nums;
   transition: all 400ms;
+
+  span {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+  }
 `;
 
 const Root = styled.div`

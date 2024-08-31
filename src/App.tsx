@@ -14,12 +14,13 @@ import { useMotionValue } from "framer-motion";
 import FPSStats from "react-fps-stats";
 import DateSelector from "./components/DateSelector";
 import { dayToMs, getIsNorthSun } from "./utils";
-import { offsetDaysSelector, setThemeSelector, Theme, useStore } from "./store";
+import { offsetDaysSelector, setThemeSelector, useStore } from "./store";
 import TimeOffset from "./components/TimeOffset";
 import { useState } from "react";
 import Icon from "./components/Icon";
+import { Theme } from "./types";
 
-const themes = ["green", "purple", "mono-dark"];
+const themes = ["green", "purple", "light", "mono-dark"];
 
 const App = () => {
   const setTheme = useStore(setThemeSelector);
