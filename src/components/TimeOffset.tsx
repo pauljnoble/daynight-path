@@ -108,7 +108,7 @@ const TickerMask = styled.div`
   justify-content: center;
   align-items: flex-end;
   mask: url(/side-gradient-mask.svg) repeat-y center;
-  mask-size: 80% auto;
+  mask-size: 70% auto;
   mask-position: 50% 0;
 `;
 
@@ -158,12 +158,15 @@ const Root = styled.div`
   z-index: 10;
 
   &[data-active="false"] {
+    pointer-events: none;
+
     ${Ticker} {
       opacity: 1;
     }
 
     ${TimeDiff} {
       opacity: 0;
+      pointer-events: none;
     }
   }
 `;

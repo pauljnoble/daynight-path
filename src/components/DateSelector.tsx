@@ -21,7 +21,7 @@ const DateSelector = () => {
 
   return (
     <Root>
-      <DateLabel>{formatDate(new Date(appTime))} </DateLabel>
+      <DateLabel>{formatDate(new Date(appTime))}</DateLabel>
 
       <RangeSlider
         min={1}
@@ -41,44 +41,24 @@ const DateLabel = styled.div`
   left: 0;
   right: 0;
   margin: auto;
-  width: 200px;
   pointer-events: none;
-  color: var(--color-text-secondary);
-  font-size: 24px;
-  z-index: 9;
+  color: var(--color-text-primary);
+  font-size: 16px;
   font-variant-numeric: tabular-nums;
-  opacity: 0;
   transition: all 400ms;
-  text-transform: uppercase;
-  transform: translateY(24px);
 `;
 
 const Root = styled.div`
   position: relative;
   margin: auto;
-  width: 600px;
+  width: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  z-index: 9;
+  gap: 4px;
   transition: opacity 400ms;
-
-  ${DateLabel} + * {
-    opacity: 0;
-  }
-
-  &:hover {
-    opacity: 1;
-
-    ${DateLabel} {
-      transform: translateY(0);
-    }
-
-    ${DateLabel} + * {
-      opacity: 1;
-    }
-  }
+  border-radius: 8px;
 `;
 
 export default DateSelector;

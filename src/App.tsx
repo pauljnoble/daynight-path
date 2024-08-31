@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {
   CYLINDRICAL_STEREOGRAPHIC_ASPECT,
   CYLINDRICAL_STEREOGRAPHIC_ASPECT_CROPPED,
@@ -16,6 +16,10 @@ import DateSelector from "./components/DateSelector";
 import { dayToMs, getIsNorthSun } from "./utils";
 import { offsetDaysSelector, setThemeSelector, Theme, useStore } from "./store";
 import TimeOffset from "./components/TimeOffset";
+import { useState } from "react";
+import CloseIcon from "./components/CloseIcon";
+import CalendarIcon from "./components/CalendarIcon";
+import ContrastIcon from "./components/ContrastIcon";
 
 const themes = ["green", "purple", "mono-dark"];
 
@@ -25,7 +29,9 @@ const App = () => {
   const isNorthSun = getIsNorthSun(dayToMs(offsetDays) + Date.now());
   const dragX = useMotionValue(0);
 
-  const handleClick = () => {
+  const [isDateSelectorActive, setDateSelectorActive] = useState(false);
+
+  const handleClickTheme = () => {
     const el = document.documentElement;
     const currTheme = el.getAttribute("data-theme")!;
     const currIndex = themes.indexOf(currTheme);
@@ -34,13 +40,26 @@ const App = () => {
     setTheme(next as Theme);
   };
 
+  const handleClickClose = () => {
+    setDateSelectorActive(false);
+  };
+
+  const handleClickCalendar = () => {
+    setDateSelectorActive(true);
+  };
+
   return (
     <Root data-is-north-sun={isNorthSun}>
       <FPSStats />
       <Container>
         <Main>
-          <ThemeBtn onClick={handleClick} />
-          {/* <div>{new Date(appTime).toTimeString()}</div> */}
+          <ThemeBtn onClick={handleClickTheme}>
+            <ContrastIcon />
+          </ThemeBtn>
+          <CalendarBtn onClick={handleClickCalendar}>
+            <CalendarIcon />
+          </CalendarBtn>
+
           <LocationsSection>
             <Locations />
           </LocationsSection>
@@ -53,9 +72,14 @@ const App = () => {
               <Map />
             </MapContainer>
           </MapCrop>
-          {/* <DateSection>
-            <DateSelector />
-          </DateSection> */}
+          {isDateSelectorActive && (
+            <DateSection>
+              <CloseBtn onClick={handleClickClose}>
+                <CloseIcon />
+              </CloseBtn>
+              <DateSelector />
+            </DateSection>
+          )}
           <TimeOffset x={dragX} />
         </Main>
       </Container>
@@ -95,6 +119,10 @@ const Container = styled.div`
 const Main = styled.div`
   flex-basis: var(--width-map);
   outline: dotted 1px var(--color-debug-outline);
+
+  * {
+    user-select: none;
+  }
 `;
 
 const MapCrop = styled.div`
@@ -103,20 +131,70 @@ const MapCrop = styled.div`
   aspect-ratio: ${CYLINDRICAL_STEREOGRAPHIC_ASPECT_CROPPED};
 `;
 
-const ThemeBtn = styled.button`
+const btnStyles = css`
   appearance: none;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: transparent;
   border: 0;
-  width: 16px;
-  height: 16px;
   padding: 0;
+  outline: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const CloseBtn = styled.button`
+  ${btnStyles}
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  opacity: 0.5;
-  background-color: var(--color-map);
-  z-index: 9;
+  z-index: 1;
+  background-color: transparent;
+
+  svg {
+    width: 18px;
+    color: var(--color-text-secondary);
+  }
+`;
+
+const ThemeBtn = styled.button`
+  ${btnStyles}
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--color-btn);
+  border: 1px solid var(--color-btn-outline);
+  z-index: 12;
+
+  svg {
+    width: 14px;
+  }
+`;
+
+const CalendarBtn = styled.button`
+  ${btnStyles}
+  position: absolute;
+  top: 12px;
+  right: 52px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--color-btn);
+  border: 1px solid var(--color-btn-outline);
+  z-index: 12;
+
+  svg {
+    width: 14px;
+  }
 `;
 
 const LocationsSection = styled.div`
@@ -129,7 +207,15 @@ const LocationsSection = styled.div`
 `;
 
 const DateSection = styled.div`
-  padding-bottom: 16px;
+  position: absolute;
+  top: 60px;
+  right: 24px;
+  background-color: var(--color-bg);
+  z-index: 12;
+  padding: 16px 20px 4px;
+  border-radius: 8px;
+  outline: 1px solid var(--color-popup-outline);
+  box-shadow: var(--shadow-popup);
 `;
 
 const MapContainer = styled.div`

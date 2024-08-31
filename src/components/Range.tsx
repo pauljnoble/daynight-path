@@ -145,12 +145,12 @@ export const Control = styled.input.attrs({ type: "range" })`
     /* background-color: var(--grey-800); */
     background-color: var(--color-slider-thumb);
     border: 1px solid var(--color-slider-thumb);
-    /* border-radius: 50%; */
-    border-radius: 2px;
+    border-radius: 50%;
+    /* border-radius: 2px; */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.24);
     cursor: pointer;
-    height: 18px;
-    width: 4px;
+    height: 12px;
+    width: 12px;
     margin-top: 0;
     pointer-events: all;
     position: relative;

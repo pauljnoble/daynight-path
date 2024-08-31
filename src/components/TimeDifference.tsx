@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { useStore } from "../store";
+import CloseIcon from "./CloseIcon";
 
 const TimeDifference = () => {
   const { appTime, realTime } = useStore();
@@ -17,8 +18,13 @@ const TimeDifference = () => {
   const sign = time < 0 ? "–" : "+";
 
   // Format days, hours, and minutes with leading zeros if necessary
-  const formattedHours = String(hours).padStart(2, "0");
-  const formattedMinutes = String(minutes).padStart(2, "0");
+  let formattedHours = String(hours).padStart(2, "0");
+  let formattedMinutes = String(minutes).padStart(2, "0");
+
+  if (formattedHours === "00" && formattedMinutes === "00") {
+    formattedHours = "";
+    formattedMinutes = "";
+  }
 
   return (
     <Control>
@@ -32,20 +38,13 @@ const TimeDifference = () => {
         ) : null}
         <span className="hours">
           {days ? formattedHours : hours}
-          <span className="unit">hr</span>
+          {formattedHours && <span className="unit">hr</span>}
           {formattedMinutes}
-          <span className="unit no-pad-right">min</span>
+          {formattedMinutes && <span className="unit no-pad-right">min</span>}
         </span>
       </Root>
       <CloseWrapper>
-        <svg viewBox="0 0 24 24">
-          <path
-            d={
-              "M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4l5.6 5.6L5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6z"
-            }
-            fill="currentColor"
-          />
-        </svg>
+        <CloseIcon />
       </CloseWrapper>
     </Control>
   );
@@ -63,7 +62,6 @@ const Control = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  pointer-events: all;
   cursor: default;
 
   .triangle {

@@ -219,15 +219,7 @@ export const getDayNumberOfYear = (timestamp: number): number => {
 };
 
 export const formatDate = (date: Date): string => {
-    const daysOfWeek = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-    ];
+
     const months = [
         "January",
         "February",
@@ -243,12 +235,11 @@ export const formatDate = (date: Date): string => {
         "December",
     ];
 
-    const dayOfWeek = daysOfWeek[date.getUTCDay()];
     const dayOfMonth = ("0" + date.getUTCDate()).slice(-2); // Add leading zero if necessary
     const month = months[date.getUTCMonth()];
     const year = date.getUTCFullYear();
 
-    return `${dayOfMonth} ${month}`;
+    return `${month} ${dayOfMonth}, ${year}`;
 };
 
 export const pxToMs = (px: number) => {
