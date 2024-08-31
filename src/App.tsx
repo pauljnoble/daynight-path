@@ -10,8 +10,6 @@ import DayNight from "./components/DayNight";
 import Dragger from "./components/Dragger";
 import Markers from "./components/Markers";
 import { useMotionValue } from "framer-motion";
-/* @ts-ignore */
-import FPSStats from "react-fps-stats";
 import DateSelector from "./components/DateSelector";
 import { dayToMs, getIsNorthSun } from "./utils";
 import { offsetDaysSelector, setThemeSelector, useStore } from "./store";
@@ -49,7 +47,6 @@ const App = () => {
 
   return (
     <Root data-is-north-sun={isNorthSun}>
-      <FPSStats />
       <Container>
         <Main>
           <ThemeBtn onClick={handleClickTheme}>
