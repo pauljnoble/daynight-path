@@ -46,6 +46,7 @@ const TimeDifference = () => {
       <CloseWrapper>
         <Icon type="close" />
       </CloseWrapper>
+      <span className="triangle" />
     </Control>
   );
 };
@@ -63,17 +64,21 @@ const Control = styled.div`
   justify-content: center;
   font-weight: 600;
   cursor: default;
+  overflow: visible;
 
   .triangle {
-    color: var(--color-accent);
+    display: block;
+    background-color: var(--color-accent);
     position: absolute;
-    bottom: 100%;
-    height: 6px;
-    width: 14px;
+    top: 100%;
     left: 0;
     right: 0;
     margin: auto;
     pointer-events: none;
+    width: 14px;
+    height: 8px;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    z-index: 1;
   }
 `;
 

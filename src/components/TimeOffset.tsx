@@ -10,9 +10,9 @@ const GAP_HOUR = PX_DRAG_PER_DAY / 24;
 const GAP_TICK = GAP_HOUR / 6;
 const HOURS = Array(24).fill("");
 const TICKS = Array(6).fill("");
-const HEIGHT = 20;
-const HOUR_OFFSET_Y = 6;
-const MINUTE_OFFSET_Y = 8;
+const HEIGHT = 32;
+const HOUR_OFFSET_Y = 16;
+const MINUTE_OFFSET_Y = 16;
 
 const Hatches = memo(({ offsetDays }: { offsetDays: number }) => {
   return (
@@ -28,14 +28,14 @@ const Hatches = memo(({ offsetDays }: { offsetDays: number }) => {
           <>
             <rect
               x={GAP_HOUR * i - 0.5}
-              y={HOUR_OFFSET_Y}
+              y={0}
               width="1.5"
               height={HEIGHT - HOUR_OFFSET_Y}
               fill="var(--color-tick-hour-bg)"
             />
             <text
               x={GAP_HOUR * i}
-              y={0}
+              y={HEIGHT}
               fill={"var(--color-tick-hour-bg)"}
               fontSize={10}
               textAnchor={"middle"}
@@ -52,7 +52,7 @@ const Hatches = memo(({ offsetDays }: { offsetDays: number }) => {
               return (
                 <rect
                   x={GAP_HOUR * i + GAP_TICK * ii}
-                  y={MINUTE_OFFSET_Y}
+                  y={0}
                   width="1"
                   height={HEIGHT - MINUTE_OFFSET_Y}
                   fill="var(--color-tick-min-bg)"
@@ -120,7 +120,7 @@ const Ticker = styled(motion.div)`
   width: ${PX_DRAG_PER_DAY * 3}px;
   margin: auto;
   pointer-events: none;
-  transition: opacity 300ms;
+  transition: opacity 250ms;
 
   &[data-active="false"] {
     opacity: 0;
@@ -143,8 +143,13 @@ const TimeDiff = styled.div`
   z-index: 12;
   display: flex;
   justify-content: center;
-  transition: opacity 300ms;
+  transition: all 300ms;
   pointer-events: all;
+  transform: translateY(0) scale(1);
+
+  [data-active="false"] & {
+    transition: none;
+  }
 `;
 
 const Root = styled.div`
@@ -152,9 +157,9 @@ const Root = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  height: 92px;
+  height: 104px;
   pointer-events: none;
-  background-image: linear-gradient(to top, var(--color-bg) 40%, transparent);
+  background-image: linear-gradient(to top, var(--color-bg) 50%, transparent);
   z-index: 10;
 
   &[data-active="false"] {

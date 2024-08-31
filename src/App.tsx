@@ -20,7 +20,7 @@ import { useState } from "react";
 import Icon from "./components/Icon";
 import { Theme } from "./types";
 
-const themes = ["green", "purple", "light", "mono-dark"];
+const themes: Theme[] = ["purple", "green", "mono-dark"];
 
 const App = () => {
   const setTheme = useStore(setThemeSelector);
@@ -32,7 +32,7 @@ const App = () => {
 
   const handleClickTheme = () => {
     const el = document.documentElement;
-    const currTheme = el.getAttribute("data-theme")!;
+    const currTheme = el.getAttribute("data-theme")! as Theme;
     const currIndex = themes.indexOf(currTheme);
     const next = themes[(currIndex + 1) % themes.length];
     el.setAttribute("data-theme", next);
@@ -44,7 +44,7 @@ const App = () => {
   };
 
   const handleClickCalendar = () => {
-    setDateSelectorActive(true);
+    setDateSelectorActive(!isDateSelectorActive);
   };
 
   return (
@@ -139,6 +139,10 @@ const btnStyles = css`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    border-color: inherit;
+  }
 
   &:focus {
     outline: none;

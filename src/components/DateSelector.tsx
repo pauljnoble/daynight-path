@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { useStore } from "../store";
 import { formatDate, getDayNumberOfYear } from "../utils";
 import RangeSlider from "./Range";
+import { MS_PER_DAY } from "../constants";
 
 const DateSelector = () => {
-  const { appTime, setAppTime, msSinceStartOfDay } = useStore();
+  const { appTime, setAppTime, msSinceStartOfDay, realTime } = useStore();
 
   const handleChange = (value: number) => {
     // Create a new Date object for January 1st of the given year
@@ -14,7 +15,7 @@ const DateSelector = () => {
     date.setUTCDate(value);
 
     // Maintain the current time of day
-    date.setUTCMilliseconds(msSinceStartOfDay);
+    date.setUTCMilliseconds(realTime % MS_PER_DAY);
 
     setAppTime(date.getTime());
   };
