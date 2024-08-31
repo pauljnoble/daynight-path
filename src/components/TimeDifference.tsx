@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { useStore } from "../store";
-import CloseIcon from "./CloseIcon";
+import Icon from "./Icon";
 
 const TimeDifference = () => {
   const { appTime, realTime } = useStore();
@@ -44,7 +44,7 @@ const TimeDifference = () => {
         </span>
       </Root>
       <CloseWrapper>
-        <CloseIcon />
+        <Icon type="close" />
       </CloseWrapper>
     </Control>
   );

@@ -17,9 +17,7 @@ import { dayToMs, getIsNorthSun } from "./utils";
 import { offsetDaysSelector, setThemeSelector, Theme, useStore } from "./store";
 import TimeOffset from "./components/TimeOffset";
 import { useState } from "react";
-import CloseIcon from "./components/CloseIcon";
-import CalendarIcon from "./components/CalendarIcon";
-import ContrastIcon from "./components/ContrastIcon";
+import Icon from "./components/Icon";
 
 const themes = ["green", "purple", "mono-dark"];
 
@@ -54,10 +52,10 @@ const App = () => {
       <Container>
         <Main>
           <ThemeBtn onClick={handleClickTheme}>
-            <ContrastIcon />
+            <Icon type="contrast" />
           </ThemeBtn>
           <CalendarBtn onClick={handleClickCalendar}>
-            <CalendarIcon />
+            <Icon type="calendar" />
           </CalendarBtn>
 
           <LocationsSection>
@@ -75,7 +73,7 @@ const App = () => {
           {isDateSelectorActive && (
             <DateSection>
               <CloseBtn onClick={handleClickClose}>
-                <CloseIcon />
+                <Icon type="close" />
               </CloseBtn>
               <DateSelector />
             </DateSection>
