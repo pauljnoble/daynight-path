@@ -16,12 +16,7 @@ import { motion, useTransform } from "framer-motion";
 
 const DayNight = ({ x }: any) => {
   const { realTime, offsetDays, theme } = useStore();
-  // const offset = appTime - realTime;
-
   const longitudePrecision = 3;
-
-  // Get the derived days offset
-  // const offsetDays = msToDay(offset);
 
   const getPaths = (time: number) => {
     const ranges = getAllAngles(new Date(time), 0, longitudePrecision);
@@ -44,22 +39,15 @@ const DayNight = ({ x }: any) => {
   const paths = useMemo(() => {
     console.log("Expensively rendering day / night path.", offsetDays);
     const time = realTime + dayToMs(offsetDays);
-    return getPaths(time);
+    const paths = getPaths(time);
+    return paths;
   }, [offsetDays, realTime, longitudePrecision, theme]);
-
-  // const baseEncoded = useMemo(() => {
-  //   console.log("Expensively getting base encoded image");
-  //   const str = pathsToSvgString(paths);
-  //   return convertSvgToCssBackgroundImage(str);
-  // }, [paths]);
 
   const svgString = useMemo(() => {
     if (!paths) return "";
 
     return pathsToSvgString(paths);
   }, [paths]);
-
-  // const dayOffset = -(((offset / MS_PER_DAY) * 100) / 3) % (100 / 3);
 
   const xTransformed = useTransform(
     () => `${(((pxToMs(x.get()) / MS_PER_DAY) * 100) / 3) % (100 / 3)}%`

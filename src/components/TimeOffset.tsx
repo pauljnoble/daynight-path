@@ -4,6 +4,7 @@ import { motion, MotionValue, useTransform } from "framer-motion";
 import { resetAppTimeSelector, useStore } from "../store";
 import { memo } from "react";
 import TimeDifference from "./TimeDifference";
+import React from "react";
 
 const WIDTH = PX_DRAG_PER_DAY;
 const GAP_HOUR = PX_DRAG_PER_DAY / 24;
@@ -25,7 +26,7 @@ const Hatches = memo(({ offsetDays }: { offsetDays: number }) => {
     >
       {HOURS.map((_, i) => {
         return (
-          <>
+          <React.Fragment key={i}>
             <rect
               x={GAP_HOUR * i - 0.5}
               y={0}
@@ -53,13 +54,14 @@ const Hatches = memo(({ offsetDays }: { offsetDays: number }) => {
                 <rect
                   x={GAP_HOUR * i + GAP_TICK * ii}
                   y={0}
+                  key={ii}
                   width="1"
                   height={HEIGHT - MINUTE_OFFSET_Y}
                   fill="var(--color-tick-min-bg)"
                 />
               );
             })}
-          </>
+          </React.Fragment>
         );
       })}
     </svg>

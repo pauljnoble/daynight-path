@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { TODO } from "../types";
 
-const DynamicSvgImage = ({ svgPath, fillColor }: TODO) => {
+type Props = {
+  svgPath: string;
+  fillColor: string;
+};
+
+const DynamicSvgImage = ({ svgPath, fillColor }: Props) => {
   const [svgUrl, setSvgUrl] = useState("");
 
   useEffect(() => {

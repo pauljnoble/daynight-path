@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { TODO } from "../types";
+import { LocationType } from "../types";
 import { LOCATIONS } from "../constants";
 import styled from "styled-components";
 import { useStore } from "../store";
@@ -17,14 +17,14 @@ const Locations = () => {
   const { appTime } = useStore();
 
   const formatters = useMemo(() => {
-    return locations.map((l: TODO) => {
+    return locations.map((l: LocationType) => {
       return new Intl.DateTimeFormat("en-US", getOptions(l.timeZone));
     });
   }, [locations]);
 
   return (
     <>
-      {locations.map((l: TODO, i: number) => {
+      {locations.map((l: LocationType, i: number) => {
         const parts = formatters[i].format(appTime).split(":");
 
         const isLate = parseInt(parts[0]) < 7 || parseInt(parts[0]) > 19;
@@ -61,7 +61,6 @@ const Time = styled.div<{ $isLate: boolean }>`
     color: var(--color-text-secondary);
     opacity: 0.66;
   }
-  /* filter: blur(3px); */
 `;
 
 const Name = styled.div`

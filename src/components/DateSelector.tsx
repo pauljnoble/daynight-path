@@ -9,7 +9,8 @@ const DateSelector = () => {
 
   const handleChange = (value: number) => {
     // Create a new Date object for January 1st of the given year
-    const date = new Date(Date.UTC(2024, 0, 1));
+    const currentYear = new Date().getUTCFullYear();
+    const date = new Date(Date.UTC(currentYear, 0, 1));
 
     // Set the date to the nth day of the year
     date.setUTCDate(value);
